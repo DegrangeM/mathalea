@@ -41,12 +41,21 @@ export default function NomQuelconqueDeLaFonctionQuiCreeExercice () {
       QuestionsDisponibles = [1, 2, 3]
     } else {
       if (typeof (this.sup) === 'number') { // Si c'est un nombre c'est qu'il y a qu'un problème
-        QuestionsDisponibles[0] = this.sup
+        if (this.sup > 0 && this.sup < 3) QuestionsDisponibles[0] = this.sup
+        else {
+          this.sup = ''
+          QuestionsDisponibles[0] = 1
+          alert('Paramètre incorrect en dehors des valeurs possibles')
+        }
       } else {
         QuestionsDisponibles = this.sup.split('-')// Sinon on créé un tableau à partir des valeurs séparées par des -
         this.nbQuestions = QuestionsDisponibles.length
         for (let i = 0; i < QuestionsDisponibles.length; i++) { // on a un tableau avec des strings : ['1', '1', '2']
           QuestionsDisponibles[i] = parseInt(QuestionsDisponibles[i]) // parseInt en fait un tableau d'entiers
+          if (QuestionsDisponibles[i] < 1 || QuestionsDisponibles[i] > 3) {
+            QuestionsDisponibles[i] = 1
+            alert('Paramètre incorrect en dehors des valeurs possibles')
+          }
         }
       }
     }
