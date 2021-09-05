@@ -44,14 +44,14 @@ On peut partager le code en 3 parties :
 
 ### <a id="4" href="#4">#</a> 1. L'en-tête
 ```javascript
-import Exercice from '../Exercice.js' // Un exercice commence toujours pas cette ligne. Elle sert à importer la classe Exercice avec tous ses attributs qu'on modifiera dans la deuxième partie
+import Exercice from '../Exercice.js' // Un exercice commence toujours par cette ligne. Elle sert à importer la classe Exercice avec tous ses attributs qu'on modifiera dans la deuxième partie
 import { listeQuestionsToContenu, randint } from '../../modules/outils.js' // On peut ensuite importer d'autres choses. outils.js regorge de fonctions très utiles déjà créées par d'autres avant vous ! Si vous avez besoin de faire quelque chose, jetez-y un oeil ! Quelqu'un l'a déjà probablement fait pour vous !
 // Cherchez randint dans la barre de recherche en haut à gauche de cette page pour voir ce que peut bien faire cette fonction ?
 import { ajouteChampTexte, setReponse } from '../../modules/gestionInteractif.js' // Dans notre cas, on importe le nécessaire pour rendre un exercice interactif
 
 export const titre = 'Ajouter 9'   // Après les importations, on exporte le titre de notre exercice.
 export const amcReady = true // Si on prévoit une sortie AMC (Auto Multiple Choice), on écrit cette ligne
-export const interactifReady = true // Si on prévoit que notre exercice soit interactiv, on écrit cette ligne
+export const interactifReady = true // Si on prévoit que notre exercice soit interactif, on écrit cette ligne
 export const interactifType = 'numerique' // On précise le type d'interactivité
 export const amcType = 'AMCNum' // Ainsi que le type d'AMC
 
