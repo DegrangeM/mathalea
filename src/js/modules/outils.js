@@ -32,11 +32,11 @@ export function interactivite (exercice) {
  */
 export function listeQuestionsToContenu (exercice) {
   if (context.isHtml) {
-    exercice.contenu = htmlConsigne(exercice.consigne) + htmlParagraphe(exercice.introduction) + htmlEnumerate(exercice.listeQuestions, exercice.spacing, 'question', `exercice${exercice.numeroExercice}Q`, exercice.tailleDiaporama, 'sansNumero')
+    exercice.contenu = htmlConsigne(exercice.consigne) + htmlParagraphe(exercice.introduction) + htmlEnumerate(exercice.listeQuestions, exercice.spacing, 'question', `exercice${exercice.numeroExercice}Q`, exercice.tailleDiaporama)
     if ((exercice.interactif && exercice.interactifReady) || getVueFromUrl() === 'eval') {
       exercice.contenu += `<button class="ui blue button checkReponses" type="submit" style="margin-bottom: 20px; margin-top: 20px" id="btnValidationEx${exercice.numeroExercice}-${exercice.id}">Vérifier les réponses</button>`
     }
-    exercice.contenuCorrection = htmlParagraphe(exercice.consigneCorrection) + htmlEnumerate(exercice.listeCorrections, exercice.spacingCorr, 'correction', `correction${exercice.numeroExercice}Q`, exercice.tailleDiaporama, 'sansNumero')
+    exercice.contenuCorrection = htmlParagraphe(exercice.consigneCorrection) + htmlEnumerate(exercice.listeCorrections, exercice.spacingCorr, 'correction', `correction${exercice.numeroExercice}Q`, exercice.tailleDiaporama)
   } else {
     let vspace = ''
     if (exercice.vspace) {
@@ -1270,18 +1270,26 @@ export function unSiPositifMoinsUnSinon (a) {
   else return 1
 }
 /**
-* Retourne un string avec la somme des chiffres
+* Retourne la somme des chiffres d'un nombre en valeur et sous forme de String [valeur, String]
 * @Example
 * sommeDesChiffress(123)
-* // 6
+* // [ 6, '1+2+3']
 * @author Rémi Angot
 */export function sommeDesChiffres (n) {
+  const nString = n.toString()
+  let somme = 0
   let sommeString = ''
-  for (let i = 0; i < n.length - 1; i++) {
-    sommeString += n[i] + '+'
+  for (let i = 0; i < nString.length - 1; i++) {
+    if (['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'].indexOf(nString[i] !== -1)) {
+      sommeString += nString[i] + '+'
+      somme += Number(nString[i])
+    }
   }
-  sommeString += n[n.length - 1]
-  return sommeString
+  if (['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'].indexOf(nString[nString.length - 1] !== -1)) {
+    sommeString += nString[nString.length - 1]
+    somme += Number(nString[nString.length - 1])
+  }
+  return [somme, sommeString]
 }
 
 /**
