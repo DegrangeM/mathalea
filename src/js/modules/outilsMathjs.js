@@ -3,6 +3,7 @@ import { texNombre2 } from './outils.js'
 import { all, create, format, number, SymbolNode, ConstantNode, OperatorNode, ParenthesisNode, simplify, parse } from 'mathjs'
 import { Node, Negative, solveEquation, simplifyExpression, factor, printMS } from 'mathsteps'
 import { getNewChangeNodes } from './Change.js'
+import { type } from 'jquery'
 
 const math = create(all)
 
@@ -797,12 +798,73 @@ export function resoudre (equation, params) {
   })
   const texte = `Résoudre $${printEquation}$.`
   const texteCorr = `$\\begin{aligned}\n${stepsNewEquation.join('\\\\\n')}\n\\end{aligned}$`
+  const solution = (options = {}) => {
+    options = {
+      ...options,
+      ...{
+        /*
+          type
+            float: nombre au format float (javascript)
+            exact (par défaut) : fraction ou decimal lorsque c'est possible (latex)
+            fraction : fraction ou entier lorsque c'est possible (latex)
+            decimal: arrondi (latex)
+        */
+        type: 'exact',
+        /*
+        operator
+          true: retourne x = 2 (incompatible avec type=float et decimal)
+          false: retourne 2
+        */
+        operator: true
+        // afficherVariable
+        // valeurUniquement
+        // 5/3
+      }
+    }
+    equation = resoudre('10x+20=0')
+    equation.solution({operator:true}) // "x = -2"
+    equation.solution({operator:false}) // "-2"
+    const lastEquation = steps[steps.length - 1].newEquation.ascii()
+    let answer = lastEquation.rightNode
+    answer.isConstantNode // entier ou nombre décimaux 0.2 ou 7
+    answer.isOperatorNode && answer.op === '/' && answer.args[0].isConstantNode && answer.args[1].isConstantNode // 2/3
+    answer.isOperatorNode && answer.op === '-' && answer.fn === 'unaryMinus' && answer.args[0].isConstantNode
+    emath.evaluate(answer).s
+
+    // formatSolution
+
+    // decomposition produit facteur premier via mathalea
+
+    //.s signe -1 ou 1
+    // d denominateur
+    // n numerateur
+
+    answer.ascii().match()
+
+    //
+    // node.value
+    // dans ce dernier cas regarder si c'est un nombre ou une fraction
+    // isOperatorNode : + - * ou /, answer.op==='/' : fraction, ars[0] : numérateur, args[1] : dénominateur
+    
+    /*
+    if (options.type === 'float') {
+      return parseFloat(math.evaluate(answer))
+    }
+    if (options.type === 'decimal') {
+      answer = texNombre2(math.evaluate(answer))
+    }
+    // là il faut un moyen de détecter si fraction pour regarder dénominateur
+    */
+  }
+
+  /*
   const solution = {
     printDecimal: texNombre2(math.evaluate(steps[steps.length - 1].newEquation.ascii().split(steps[steps.length - 1].newEquation.comparator)[1])),
     decimal: math.evaluate(steps[steps.length - 1].newEquation.ascii().split(steps[steps.length - 1].newEquation.comparator)[1]),
     exact: steps[steps.length - 1].newEquation.ascii().split(steps[steps.length - 1].newEquation.comparator)[1],
     print: toTex(steps[steps.length - 1].newEquation.ascii())
   }
+  */
   let calculateLeftSide, calculateRightSide
   if (equation.indexOf('=') !== -1) {
     const sides = equation.split('=')
@@ -815,11 +877,11 @@ export function resoudre (equation, params) {
     solution: solution,
     texte: texte,
     texteCorr: texteCorr,
-    equation: printEquation,
-    verifLeftSide: calculateLeftSide,
+    equation: printEquation, // affiche l'équation de départ formatée en latex en respectant certains conventions (ex: 1x -> x)
+    verifLeftSide: calculateLeftSide, // le calcul où on remplace la variable dans le membre de gauche par la solution
     verifRightSide: calculateRightSide,
-    steps: steps,
-    printSteps: stepsNewEquation
+    steps: steps, // le tableau renvoyé par mathsteps non modifié
+    printSteps: stepsNewEquation // tableau javascript avec les étapes formatées en latex
   }
 }
 
