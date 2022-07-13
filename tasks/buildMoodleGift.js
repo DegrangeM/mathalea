@@ -1,8 +1,8 @@
-const fs = require("fs")
+const fs = require('fs')
 const path = require('path')
 
 require = require('esm')(module) // permet d'importer des fichiers avec export default dans nodejs
-const exercices = require("../src/js/modules/dictionnaireDesExercicesAleatoires.js").default
+const exercices = require('../src/js/modules/dictionnaireDesExercicesAleatoires.js').default
 
 const mathAleaURL = 'https://coopmaths.fr/' // ne pas oublier le / final
 
@@ -27,7 +27,7 @@ for (const [id, exercice] of Object.entries(exercices)) {
 }
 
 
-const exportPath = path.resolve(__dirname, '..', 'src', 'assets', 'gift', `mathalea.gift.txt`)
+const exportPath = path.resolve(__dirname, '..', 'src', 'assets', 'gift', 'mathalea.gift.txt')
 
 fs.writeFileSync(exportPath, gift)
 
