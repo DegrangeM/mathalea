@@ -35,7 +35,7 @@ console.log('Export de Mathalea pour Moodle au format GIFT terminé.')
 console.log('Le fichier est disponible dans le dossier assets/gift/mathalea.gift.txt')
 
 function exportExerciceAsGift(id, exercice) {
-  const c = s => s.replace(/[~=#{}:]/g, '\\$&'); // échappement des caratères spéciaux pour les GIFT
+  const c = s => s.replace(/[~=#{}:]/g, '\\$&') // échappement des caratères spéciaux pour les GIFT
 
   const categorie = 'Mathalea/' + exercice.url.match(/^\/exercices\/(.+)\/.+$/)[1]
   const titre = `Mathalea - ${exercice.titre} (${exercice.name})`
